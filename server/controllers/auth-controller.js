@@ -9,7 +9,7 @@ const home = async (req, res) => {
   }
 };
 
-// regitering the user 
+// regitering the user
 const register = async (req, res) => {
   try {
     const { username, password, email, phone } = req.body;
@@ -30,8 +30,7 @@ const register = async (req, res) => {
     // console.log(createdUser);
 
     res.status(201).json({
-      messsage: "User created",
-      createdUser,
+      messsage: "Registration successfull",
       token: await createdUser.generateToken(),
       userId: createdUser._id.toString(),
     });

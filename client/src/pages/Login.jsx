@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth.jsx";
 
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const URL = "http://localhost:3000/api/auth/login";
+  const navigate = useNavigate();
+  const { storeTokenInLs } = useAuth();
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -19,10 +26,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        
+      const response = await axios.post(URL, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      const res_data = response.data;
+      console.log("res from  server", res_data);
+
+      if (response.status >= 200 && response.status < 300) {
+        storeTokenInLs(res_data.token);
+        setUser({
+          email: "",
+          password: "",
+        });
+        navigate("/");
+      }
     } catch (error) {
-
+      console.log("login", error);
     }
   };
 

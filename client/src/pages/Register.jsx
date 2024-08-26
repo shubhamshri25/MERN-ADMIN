@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../store/auth.jsx";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -9,10 +11,13 @@ const Register = () => {
     password: "",
   });
 
+  const URL = "http://localhost:3000/api/auth/register";
   const navigate = useNavigate();
 
+  const { storeTokenInLs } = useAuth();
+
   const handleInput = (e) => {
-    console.log(e);
+    // console.log(e);
     const name = e.target.name;
     const value = e.target.value;
 
@@ -25,6 +30,30 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
+
+    try {
+      const response = await axios.post(URL, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const res_data = response.data;
+      console.log("res from  server", res_data);
+
+      if (response.status >= 200 && response.status < 300) {
+        storeTokenInLs(res_data.token);
+
+        setUser({
+          username: "",
+          email: "",
+          phone: "",
+          password: "",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("register ", error);
+    }
   };
 
   return (

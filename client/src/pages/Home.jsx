@@ -39,7 +39,7 @@ const Home = () => {
           </div>
         </section>
       </main>
-      
+
       {/* Anyaltics section */}
       <Analytics />
 
@@ -66,12 +66,12 @@ const Home = () => {
               the digital age.
             </p>
             <div className="btn btn-group">
-              <a href="/contact">
+              <Link to="/contact">
                 <button className="btn">connect now</button>
-              </a>
-              <a href="/services">
+              </Link>
+              <Link to="/services">
                 <button className="btn secondary-btn">learn more</button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

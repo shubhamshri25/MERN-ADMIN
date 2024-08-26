@@ -4,6 +4,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 const connectDb = require("./connection/db");
 const errorMiddleware = require("./middlewares/error-middleware");
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+};
+
+// handling the cors issue
+app.use(cors(corsOptions));
 
 // middleware to parse incoming body requests
 app.use(express.json());
