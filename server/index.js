@@ -23,10 +23,14 @@ app.get("/", (req, res) => res.send("Hello World!"));
 // importing routes
 const userRoutes = require("./routes/userRoutes");
 const contactRoutes = require("./routes/contactRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // routes
 app.use("/api/auth", userRoutes);
 app.use("/api/form", contactRoutes);
+app.use("/api/data", serviceRoutes);
+app.use("/api/admin", adminRoutes);
 
 // error middleware
 app.use(errorMiddleware);

@@ -1,11 +1,30 @@
 import React, { useState } from "react";
+import { useAuth } from "../store/auth";
+import axios from "axios";
+
+const defaultContactFormData = {
+  username: "",
+  email: "",
+  message: "",
+};
 
 const Contact = () => {
-  const [contact, setContact] = useState({
-    username: "",
-    email: "",
-    message: "",
-  });
+  const [contact, setContact] = useState(defaultContactFormData);
+  const [userData, setUserData] = useState(true);
+
+  const { user } = useAuth();
+
+  if (userData && user) {
+    setContact({
+      username: user.username,
+      email: user.email,
+      message: "",
+    });
+
+    setUserData(false);
+  }
+
+  const URL = "http://localhost:3000/api/form/contact";
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -17,10 +36,24 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    } catch (error) {}
+      const response = await axios.post(URL, contact, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status >= 200 && response.status < 300) {
+        setContact(defaultContactFormData);
+        
+        const res_data = response.data;
+        console.log("res from  server", res_data);
+      }
+    } catch (error) {
+      console.log(" Contact ", error);
+    }
   };
 
   return (

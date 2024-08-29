@@ -1,10 +1,12 @@
 import { useState, useEffect, createContext, useContext } from "react";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
+  const [services, setServices] = useState([]);
 
   // storing the token in local storage
   const storeTokenInLs = (serverToken) => {
@@ -22,8 +24,51 @@ export const AuthProvider = ({ children }) => {
     return localStorage.removeItem("token");
   };
 
+  // JWT AUTHENTICATION - to get the currently loggedIN user data
+  const userAuthentication = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/auth/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status >= 200 && response.status < 300) {
+        const data = await response.data;
+        console.log("userData", data.userData);
+        setUser(data.userData);
+      }
+    } catch (error) {
+      console.error("Error fetching user data");
+    }
+  };
+
+  // to get all the services
+  const getServices = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/data/service"
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        const res_data = response.data;
+        // console.log(res_data.msg)
+        setServices(res_data.msg);
+      }
+    } catch (error) {
+      console.log(`services frontend error: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    userAuthentication();
+    getServices();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ storeTokenInLs, logoutUser, isloggedIn }}>
+    <AuthContext.Provider
+      value={{ isloggedIn, storeTokenInLs, logoutUser, user, services }}
+    >
       {children}
     </AuthContext.Provider>
   );

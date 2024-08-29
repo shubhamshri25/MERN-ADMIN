@@ -1,8 +1,9 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import Analytics from "../components/Analytics";
+import { useAuth } from "../store/auth";
 
 const About = () => {
+  const { user } = useAuth();
   return (
     <>
       <main>
@@ -10,6 +11,10 @@ const About = () => {
           <div className="container grid grid-two-cols">
             <div className="hero-content">
               <h1>Why Choose Us? </h1>
+              <p>
+                welcome , 
+                {user ? ` ${ user.username } to our website` : " to our website"}
+              </p>
               <p>
                 Expertise: Our team consists of experienced IT professionals who
                 are passionate about staying up-to-date with the latest industry
@@ -51,7 +56,7 @@ const About = () => {
           </div>
         </section>
       </main>
-      
+
       <Analytics />
     </>
   );

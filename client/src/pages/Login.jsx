@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth.jsx";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -37,11 +38,18 @@ const Login = () => {
 
       if (response.status >= 200 && response.status < 300) {
         storeTokenInLs(res_data.token);
+
         setUser({
           email: "",
           password: "",
         });
+        toast.success("Login successful");
         navigate("/");
+      } else {
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
+        console.log("invalid credential");
       }
     } catch (error) {
       console.log("login", error);

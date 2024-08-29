@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../store/auth.jsx";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -37,8 +38,9 @@ const Register = () => {
           "Content-Type": "application/json",
         },
       });
+
       const res_data = response.data;
-      console.log("res from  server", res_data);
+      console.log("res from server", res_data);
 
       if (response.status >= 200 && response.status < 300) {
         storeTokenInLs(res_data.token);
@@ -49,7 +51,12 @@ const Register = () => {
           phone: "",
           password: "",
         });
+        toast.success("Registration successful");
         navigate("/");
+      } else {
+        toast.error(
+          res_data.extraDetails ? res_data.extraDetails : res_data.message
+        );
       }
     } catch (error) {
       console.log("register ", error);

@@ -28,7 +28,4 @@ const signupSchema = loginSchema.extend({
     .max(20, { message: "Phone must not be more than 20 characters" }),
 });
 
-module.exports = {
-  signupSchema,
-  loginSchema,
-};
+module.exports = { signupSchema, loginSchema };
