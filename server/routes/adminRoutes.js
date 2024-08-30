@@ -9,22 +9,25 @@ const {
   deleteContactById,
 } = require("../controllers/admin-controllers");
 
+const adminMiddleware = require("../middlewares/admin-middleware");
+const authMiddleware = require("../middlewares/auth-middleware");
+
 // getting all the users
-router.get("/users", getAllUsers);
+router.get("/users", authMiddleware, adminMiddleware, getAllUsers);
 
 // getting specific user
-router.get("/users/:id", getUserById);
+router.get("/users/:id", authMiddleware, adminMiddleware, getUserById);
 
 // updating user by id
-router.put("/users/:id", updateUserByid);
+router.patch("/users/update/:id", authMiddleware, adminMiddleware, updateUserByid);
 
 // deleting user by id
-router.delete("/users/:id", deleteUserById);
+router.delete("/users/delete/:id", authMiddleware, adminMiddleware, deleteUserById);
 
 // getting all the contacts
-router.get("/contacts", getAllContacts);
+router.get("/contacts", authMiddleware, adminMiddleware, getAllContacts);
 
 // deleting user by id
-router.delete("/users/:id", deleteContactById);
+router.delete("/contacts/delete/:id", authMiddleware, adminMiddleware, deleteContactById);
 
 module.exports = router;

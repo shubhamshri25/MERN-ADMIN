@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
   const [services, setServices] = useState([]);
+  const authorizationToken = `Bearer ${token}`;
 
   // storing the token in local storage
   const storeTokenInLs = (serverToken) => {
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.get("http://localhost:3000/api/auth/user", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: authorizationToken,
         },
       });
 
@@ -67,7 +68,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isloggedIn, storeTokenInLs, logoutUser, user, services }}
+      value={{
+        isloggedIn,
+        storeTokenInLs,
+        logoutUser,
+        user,
+        services,
+        authorizationToken,
+      }}
     >
       {children}
     </AuthContext.Provider>

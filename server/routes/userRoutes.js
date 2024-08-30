@@ -6,6 +6,7 @@ const {
   login,
   user,
 } = require("../controllers/auth-controller");
+
 const validate = require("../middlewares/validate-middleware");
 const authMiddleware = require("../middlewares/auth-middleware");
 const { signupSchema, loginSchema } = require("../validators/auth-validtor");
