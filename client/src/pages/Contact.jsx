@@ -12,7 +12,7 @@ const Contact = () => {
   const [contact, setContact] = useState(defaultContactFormData);
   const [userData, setUserData] = useState(true);
 
-  const { user } = useAuth();
+  const { user, API } = useAuth();
 
   if (userData && user) {
     setContact({
@@ -24,7 +24,7 @@ const Contact = () => {
     setUserData(false);
   }
 
-  const URL = "http://localhost:3000/api/form/contact";
+  const URL = `${API}/api/form/contact`;
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -47,7 +47,7 @@ const Contact = () => {
 
       if (response.status >= 200 && response.status < 300) {
         setContact(defaultContactFormData);
-        
+
         const res_data = response.data;
         console.log("res from  server", res_data);
       }

@@ -6,8 +6,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState([]);
   const authorizationToken = `Bearer ${token}`;
+
+  // importing the vite url
+  const API = import.meta.env.VITE_APP_URI_API;
 
   // storing the token in local storage
   const storeTokenInLs = (serverToken) => {
@@ -28,7 +32,8 @@ export const AuthProvider = ({ children }) => {
   // JWT AUTHENTICATION - to get the currently loggedIN user data
   const userAuthentication = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/auth/user", {
+      setIsLoading(true);
+      const response = await axios.get(`${API}/api/auth/user`, {
         headers: {
           Authorization: authorizationToken,
         },
@@ -38,6 +43,10 @@ export const AuthProvider = ({ children }) => {
         const data = await response.data;
         console.log("userData", data.userData);
         setUser(data.userData);
+        setIsLoading(false);
+      } else {
+        console.error("Error fetching user data");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error fetching user data");
@@ -47,9 +56,7 @@ export const AuthProvider = ({ children }) => {
   // to get all the services
   const getServices = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/data/service"
-      );
+      const response = await axios.get(`${API}/api/data/service`);
 
       if (response.status >= 200 && response.status < 300) {
         const res_data = response.data;
@@ -75,6 +82,8 @@ export const AuthProvider = ({ children }) => {
         user,
         services,
         authorizationToken,
+        isLoading,
+        API,
       }}
     >
       {children}

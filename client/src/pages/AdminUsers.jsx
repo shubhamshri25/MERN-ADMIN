@@ -6,19 +6,16 @@ import { Link } from "react-router-dom";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
 
   // getting all users
   const getAllUsersData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/admin/users/",
-        {
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const response = await axios.get(`${API}/api/admin/users/`, {
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
 
       const res_data = response.data;
       console.log("Users", res_data);
@@ -32,7 +29,7 @@ const AdminUsers = () => {
   const deleteUser = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/admin/users/delete/${id}`,
+        `${API}/api/admin/users/delete/${id}`,
         {
           headers: {
             Authorization: authorizationToken,

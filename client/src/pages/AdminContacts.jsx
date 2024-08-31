@@ -5,19 +5,16 @@ import axios from "axios";
 
 const AdminContacts = () => {
   const [contactData, setContactData] = useState([]);
-  const { authorizationToken } = useAuth();
+  const { authorizationToken, API } = useAuth();
 
   // getting all users
   const getContactsData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/admin/contacts`,
-        {
-          headers: {
-            Authorization: authorizationToken,
-          },
-        }
-      );
+      const response = await axios.get(`${API}/api/admin/contacts`, {
+        headers: {
+          Authorization: authorizationToken,
+        },
+      });
       const res_data = response.data;
       console.log("contact data: ", res_data);
 
@@ -33,7 +30,7 @@ const AdminContacts = () => {
   const deleteContactById = async (id) => {
     try {
       const response = await axios.delete(
-        `  http://localhost:3000/api/admin/contacts/delete/${id}`,
+        `${API}/api/admin/contacts/delete/${id}`,
         {
           headers: {
             Authorization: authorizationToken,

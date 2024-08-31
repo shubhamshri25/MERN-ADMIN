@@ -12,10 +12,9 @@ const Register = () => {
     password: "",
   });
 
-  const URL = "http://localhost:3000/api/auth/register";
+  const { storeTokenInLs, API } = useAuth();
+  const URL = `${API}/api/auth/register`;
   const navigate = useNavigate();
-
-  const { storeTokenInLs } = useAuth();
 
   const handleInput = (e) => {
     // console.log(e);
@@ -60,6 +59,7 @@ const Register = () => {
       }
     } catch (error) {
       console.log("register ", error);
+      toast.error(error.response?.data?.message || "Registration failed");
     }
   };
 

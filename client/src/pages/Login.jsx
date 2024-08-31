@@ -10,9 +10,10 @@ const Login = () => {
     password: "",
   });
 
-  const URL = "http://localhost:3000/api/auth/login";
+  const { storeTokenInLs, API } = useAuth();
+
+  const URL = `${API}/api/auth/login`;
   const navigate = useNavigate();
-  const { storeTokenInLs } = useAuth();
 
   const handleInput = (e) => {
     const name = e.target.name;
