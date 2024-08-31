@@ -21,7 +21,7 @@ const AdminUsers = () => {
       );
 
       const res_data = response.data;
-      console.log(`Users ${res_data}`);
+      console.log("Users", res_data);
       setUsers(res_data);
     } catch (error) {
       console.log(error);
@@ -51,7 +51,9 @@ const AdminUsers = () => {
     }
   };
 
-  useEffect(() => getAllUsersData, []);
+  useEffect(() => {
+    getAllUsersData();
+  }, []);
 
   return (
     <>
