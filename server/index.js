@@ -13,9 +13,9 @@ const cors = require("cors");
 // };
 
 let whitelist = [
-  "https://mern-admin-dash-board-frontend-haxjp9xzs.vercel.app",
-  "http://localhost:5173",
   "https://mern-admin-dash-board-frontend.vercel.app",
+  "http://localhost:5173",
+  "https://mern-admin-dash-board-fr-git-2bb0c1-shubham-s-projects-1c482bc6.vercel.app/",
 ];
 
 var corsOptions = {
