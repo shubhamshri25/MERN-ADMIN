@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../store/auth";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -12,8 +12,9 @@ const AdminUpdate = () => {
   });
 
   const params = useParams();
+  const navigate = useNavigate();
 
-  const { authorizationToken ,API } = useAuth();
+  const { authorizationToken, API } = useAuth();
 
   //   get single user data
   const getSingleUserData = async () => {
@@ -65,6 +66,7 @@ const AdminUpdate = () => {
       const userData = response.data;
       if (response.status === 200 && response.status < 300) {
         toast.success("Updated successfully");
+        navigate("/admin/users");
       } else {
         toast.error("Not Updated ");
       }
@@ -79,9 +81,8 @@ const AdminUpdate = () => {
       <div className="contact-content container">
         <h1 className="main-heading">Update User Data</h1>
       </div>
-      {/* contact page main  */}
+
       <div className="container grid grid-two-cols">
-        {/* contact form content actual  */}
         <section className="section-form">
           <form onSubmit={handleSubmit}>
             <div>

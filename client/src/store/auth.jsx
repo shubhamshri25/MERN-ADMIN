@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isloggedIn, setIsLoggedIn] = useState(!!token);
   const [services, setServices] = useState([]);
   const authorizationToken = `Bearer ${token}`;
 
@@ -16,16 +17,15 @@ export const AuthProvider = ({ children }) => {
   // storing the token in local storage
   const storeTokenInLs = (serverToken) => {
     setToken(serverToken);
-    return localStorage.setItem("token", serverToken);
+    localStorage.setItem("token", serverToken);
+    setIsLoggedIn(true);
   };
-
-  // flag for toggling  logout and login
-  let isloggedIn = !!token;
-  console.log("isloggedIn", isloggedIn);
 
   // implemneting log out functionality
   const logoutUser = () => {
     setToken("");
+    setIsLoggedIn(false);
+    setUser(null);
     return localStorage.removeItem("token");
   };
 
@@ -40,9 +40,10 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        const data = await response.data;
+        const data = response.data;
         console.log("userData", data.userData);
         setUser(data.userData);
+        setIsLoggedIn(true);
         setIsLoading(false);
       } else {
         console.error("Error fetching user data");
@@ -50,6 +51,7 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching user data");
+      setIsLoading(false);
     }
   };
 
@@ -69,9 +71,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    userAuthentication();
+    if (token) {
+      userAuthentication();
+    }
     getServices();
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider
