@@ -15,7 +15,7 @@ const cors = require("cors");
 // Define the whitelist of allowed origins
 var whitelist = [
   "http://localhost:5173",
-  "https://mern-admin-dash-board-frontend.vercel.app",
+  "https://mern-admin-dash-board-frontend.vercel.app/",
 ];
 
 var corsOptions = {
