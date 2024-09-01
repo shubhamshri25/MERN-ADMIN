@@ -7,7 +7,7 @@ const errorMiddleware = require("./middlewares/error-middleware");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://mern-admin-dash-board-frontend.vercel.app"],
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
   credentials: true,
 };
