@@ -6,8 +6,27 @@ const connectDb = require("./connection/db");
 const errorMiddleware = require("./middlewares/error-middleware");
 const cors = require("cors");
 
-const corsOptions = {
-  origin: ["http://localhost:5173", "https://mern-admin-dash-board-frontend.vercel.app"],
+// const corsOptions = {
+//   origin: ["http://localhost:5173", "https://mern-admin-dash-board-frontend.vercel.app"],
+//   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+//   credentials: true,
+// };
+
+// Define the whitelist of allowed origins
+var whitelist = [
+  "http://localhost:5173",
+  "https://mern-admin-dash-board-frontend.vercel.app",
+];
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    // Check if the incoming origin is in the whitelist
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
   credentials: true,
 };
