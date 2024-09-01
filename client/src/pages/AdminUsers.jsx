@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useAuth } from "../store/auth";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -43,6 +44,7 @@ const AdminUsers = () => {
       if (response.status >= 200 && response.status < 300) {
         getAllUsersData();
       }
+      toast.success("Deleted successfully");
     } catch (error) {
       console.log(error);
     }
