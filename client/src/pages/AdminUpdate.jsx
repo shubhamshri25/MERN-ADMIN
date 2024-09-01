@@ -53,7 +53,7 @@ const AdminUpdate = () => {
     e.preventDefault();
     try {
       const response = await axios.patch(
-        `http://localhost:3000/api/admin/users/update/${params.id}`,
+        `${API}/api/admin/users/update/${params.id}`,
         data,
         {
           headers: {
