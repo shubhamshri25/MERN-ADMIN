@@ -69,7 +69,7 @@ const Home = () => {
               <Link to="/contact">
                 <button className="btn">connect now</button>
               </Link>
-              <Link to="/services">
+              <Link to="/service">
                 <button className="btn secondary-btn">learn more</button>
               </Link>
             </div>
